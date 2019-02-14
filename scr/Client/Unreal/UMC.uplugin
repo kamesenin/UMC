@@ -1,0 +1,23 @@
+{
+    "FileVersion" : 1,
+	
+	"FriendlyName" : "UMC",
+	"Version" : 0.11,
+	"VersionName" : "0.0.11",
+	"CreatedBy" : "Tomasz Witczak",
+	"CreatedByURL" : "",
+	"EngineVersion" : "",
+	"Description" : "Universal Motion Controller",
+	"Category" : "Controller",
+	"EnabledByDefault" : true,
+	
+    "Modules" :
+	[
+		{
+			"Name" : "UMC",
+			"Type" : "Runtime",
+			"LoadingPhase" : "PreDefault"
+		}
+	],
+	"CanContainContent" : true
+}
