@@ -12,10 +12,19 @@ For UMC to work you need:
 
 ## Setup
 **Unreal** 
-
+Get files from *UMC/src/Unreal* and put it under *"Plugins/UMC"* in your project root or Unreal engine directly. In editor you can use UMCActor - it has an array of Actor which transform will be control. Take a look into example.
 
 **Unity3D** 
-For Unity3D you have to just copy *UMCBehavior.cs* to your project. In Inspector you can set **ControllerGOs** and **MotionMultiply**
+For Unity3D you have to just copy *UMCBehavior.cs* to your project. In Inspector you can set *ControllerGOs* and *MotionMultiply*
+
+## Examples
+**Unreal**
+To make Unreal example work, you need to put files from *UMC/src/Unreal* and put it under *"Plugins/UMC"*
+Example itself has BP_UMCActor blueprint and example actor blueprint.
+
+**Unity3D**
+Example is fairly simple - grab and put 'denga' elements on scene.
+There is no need to make additional setup.
 
 ## TODO
 - Create IOS version
