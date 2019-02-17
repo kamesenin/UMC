@@ -2,7 +2,7 @@
 Universal Motion Controller
 It will turn your phone into motion controller which can be use under Unreal or Unity3D project - no platform dependent.
 Solution allows to add multiply phones/UMC to one project so it can be used for both hands or for multiplayer app.
-Main priciple of this project is to make it open source and free - allow everyone from indie dev to AAA studios use it and develop.
+Main principle of this project is to make it open source and free - allow everyone from indie dev to AAA studios use it and develop.
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
 
@@ -37,5 +37,6 @@ There is no need to make additional setup.
 If possible, please don't change 2492 port number - it's special number for me.
 
 ## TODO
+- Transform bug in Unreal implementation
 - Create IOS version
-- Make comunication more efficient - get rid off string
+- Make communication  more efficient - get rid off string
