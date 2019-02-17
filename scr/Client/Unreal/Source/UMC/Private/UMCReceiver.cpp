@@ -110,8 +110,7 @@ void FUMCReceiver::ReceiveData(const FArrayReaderPtr& ArrayReader, const FIPv4En
 				if (AliveControllers.Contains(ID) == false)
 				{
 					AliveControllers.Add(ID, CurrentTime);
-					ControllersLocation.Add(ID, FVector::ZeroVector);
-					ControllersRotation.Add(ID, FQuat::Identity);
+					ControllersTransform.Add(ID, FTransform::Identity);
 				}
 				else
 				{
@@ -123,9 +122,9 @@ void FUMCReceiver::ReceiveData(const FArrayReaderPtr& ArrayReader, const FIPv4En
 			{
 				TArray<FString> SplitedLocation;
 				Splited[4].ParseIntoArray(SplitedLocation, TEXT(","), true);
-
-				FVector LocationFromPhone(FCString::Atof(*SplitedLocation[0]) * MotionMultiply, FCString::Atof(*SplitedLocation[2]) * -MotionMultiply, FCString::Atof(*SplitedLocation[1]) * MotionMultiply);
-				ControllersLocation[ID] = LocationFromPhone;
+				
+				const FVector LocationFromPhone(FCString::Atof(*SplitedLocation[0]) * MotionMultiply, FCString::Atof(*SplitedLocation[1]) * MotionMultiply, FCString::Atof(*SplitedLocation[2]) * MotionMultiply);
+				ControllersTransform[ID].SetLocation(LocationFromPhone);
 			}
 
 			if (Splited[5] == "Rotation")
@@ -133,8 +132,8 @@ void FUMCReceiver::ReceiveData(const FArrayReaderPtr& ArrayReader, const FIPv4En
 				TArray<FString> SplitedRotation;
 				Splited[6].ParseIntoArray(SplitedRotation, TEXT(","), true);
 
-				FQuat RotationFromPhone(FCString::Atof(*SplitedRotation[0]), FCString::Atof(*SplitedRotation[1]), FCString::Atof(*SplitedRotation[2]), FCString::Atof(*SplitedRotation[3]));
-				ControllersRotation[ID] = RotationFromPhone;
+				const FQuat RotationFromPhone(FCString::Atof(*SplitedRotation[0]), FCString::Atof(*SplitedRotation[1]), FCString::Atof(*SplitedRotation[2]), FCString::Atof(*SplitedRotation[3]));
+				ControllersTransform[ID].SetRotation(RotationFromPhone);
 			}
 
 			if (Splited.Num() > 8 && Splited[7] == "Touches")
@@ -164,8 +163,7 @@ void FUMCReceiver::CloseConnection(const bool CalledOnDestroy)
 		ListenerSocket = nullptr;
 	}
 	AliveControllers.Empty();
-	ControllersLocation.Empty();
-	ControllersRotation.Empty();
+	ControllersTransform.Empty();
 }
 
 void FUMCReceiver::CheckConnectedControllers()
@@ -198,8 +196,7 @@ void FUMCReceiver::CheckConnectedControllers()
 		if (CurrentIndex == ToRemoveIndex)
 		{
 			AliveControllers.Remove(ID);
-			ControllersLocation.Remove(ID);
-			ControllersRotation.Remove(ID);
+			ControllersTransform.Remove(ID);
 		}
 
 		if (CurrentIndex > ToRemoveIndex)
@@ -210,13 +207,9 @@ void FUMCReceiver::CheckConnectedControllers()
 			AliveControllers.Remove(ID);
 			AliveControllers.Add(NewKey, AliveValue);
 
-			FVector Location(ControllersLocation[ID]);
-			ControllersLocation.Remove(ID);
-			ControllersLocation.Add(NewKey, Location);
-
-			FQuat Rotation(ControllersRotation[ID]);
-			ControllersRotation.Remove(ID);
-			ControllersRotation.Add(NewKey, Rotation);
+			FTransform Transform(ControllersTransform[ID]);
+			ControllersTransform.Remove(ID);
+			ControllersTransform.Add(NewKey, Transform);
 		}
 	}
 }

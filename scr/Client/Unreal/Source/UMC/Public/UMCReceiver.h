@@ -16,8 +16,7 @@ public:
 	void Update(float DeltaTime);
 
 	TMap<int32, float> GetAliveControllers() { return AliveControllers; }
-	TMap<int32, FVector> GetControllersLocations() { return ControllersLocation; }
-	TMap<int32, FQuat> GetControllersRotations() { return ControllersRotation; }
+	TMap<int32, FTransform> GetControllersTransforms() { return ControllersTransform; }
 
 	int32 GetTouches() { return CurrentTouches; }
 
@@ -36,8 +35,7 @@ private:
 	FSocket* SenderSocket;
 
 	TMap<int32, float> AliveControllers;
-	TMap<int32, FVector> ControllersLocation;
-	TMap<int32, FQuat> ControllersRotation;
+	TMap<int32, FTransform> ControllersTransform;
 
 	float CurrentTime;
 	float MotionMultiply;
