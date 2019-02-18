@@ -41,4 +41,13 @@ private:
 	float MotionMultiply;
 	float MaximumIdleTime;
 	int32 CurrentTouches;
+
+	//ARCore
+	const FMatrix ARCoreToUnrealTransform = FMatrix(
+		FPlane(0.0f, 0.0f, -1.0f, 0.0f),
+		FPlane(1.0f, 0.0f, 0.0f, 0.0f),
+		FPlane(0.0f, 1.0f, 0.0f, 0.0f),
+		FPlane(0.0f, 0.0f, 0.0f, 1.0f));
+
+	const FMatrix ARCoreToUnrealTransformInverse = ARCoreToUnrealTransform.InverseFast();
 };

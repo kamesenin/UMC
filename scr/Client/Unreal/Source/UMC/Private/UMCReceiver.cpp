@@ -118,24 +118,31 @@ void FUMCReceiver::ReceiveData(const FArrayReaderPtr& ArrayReader, const FIPv4En
 				}
 			}
 
+			FVector LocationFromPhone(FVector::ZeroVector);
 			if (Splited[3] == "Location")
 			{
 				TArray<FString> SplitedLocation;
 				Splited[4].ParseIntoArray(SplitedLocation, TEXT(","), true);
 				
-				const FVector LocationFromPhone(FCString::Atof(*SplitedLocation[0]) * MotionMultiply, FCString::Atof(*SplitedLocation[1]) * MotionMultiply, FCString::Atof(*SplitedLocation[2]) * MotionMultiply);
-				ControllersTransform[ID].SetLocation(LocationFromPhone);
+				LocationFromPhone = FVector(FCString::Atof(*SplitedLocation[0]) * MotionMultiply, FCString::Atof(*SplitedLocation[1]) * MotionMultiply, FCString::Atof(*SplitedLocation[2]) * MotionMultiply);				
 			}
 
+			FQuat RotationFromPhone(FQuat::Identity);
 			if (Splited[5] == "Rotation")
 			{
 				TArray<FString> SplitedRotation;
 				Splited[6].ParseIntoArray(SplitedRotation, TEXT(","), true);
 
-				const FQuat RotationFromPhone(FCString::Atof(*SplitedRotation[0]), FCString::Atof(*SplitedRotation[1]), FCString::Atof(*SplitedRotation[2]), FCString::Atof(*SplitedRotation[3]));
-				ControllersTransform[ID].SetRotation(RotationFromPhone);
+				RotationFromPhone = FQuat(FCString::Atof(*SplitedRotation[0]), FCString::Atof(*SplitedRotation[1]), FCString::Atof(*SplitedRotation[2]), FCString::Atof(*SplitedRotation[3]));				
 			}
 
+			FTransform TempTransform;
+			TempTransform.SetLocation(LocationFromPhone);
+			TempTransform.SetRotation(RotationFromPhone);
+			
+			//From ARCore to Unreal transform
+			ControllersTransform[ID] = FTransform(ARCoreToUnrealTransform * TempTransform.ToMatrixWithScale() * ARCoreToUnrealTransformInverse);
+	
 			if (Splited.Num() > 8 && Splited[7] == "Touches")
 			{
 				CurrentTouches = FCString::Atoi(*Splited[8]);
