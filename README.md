@@ -44,4 +44,4 @@ If possible, please don't change 2492 port number - it's special number for me.
 
 ## Microblog
 04.02.20
-  There will be overwhole of transform layer - switching to TCP. Due date: end of February
+  There will be overwhole of transport layer - switching to TCP. Due date: end of February
